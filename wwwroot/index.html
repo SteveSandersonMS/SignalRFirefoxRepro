@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>Hello</h1>
+
+    <script src="js/signalr/dist/browser/signalr.js"></script>
+    <script>
+        (async function () {
+            const statusElem = document.querySelector('h1');
+
+            const connection = new signalR.HubConnectionBuilder().withUrl("/samplehub").build();
+
+            statusElem.textContent = 'Connecting...';
+            const startTime = new Date().valueOf();
+
+            try {
+                await connection.start();
+                const durationMs = new Date().valueOf() - startTime;
+                statusElem.textContent = `Connected after ${durationMs}ms`;
+            } catch (ex) {
+                const durationMs = new Date().valueOf() - startTime;
+                statusElem.textContent = `Connection failed after ${durationMs}ms with error ${ex}`;
+            }
+        })();
+
+    </script>
+
+    <!-- If you want to edit the aspnetcore-browser-refresh.js script, save it as a file in wwwroot and then reference it here.
+        Your own copy will take precedence over the one that VS supplies at runtime. -->
+    <!-- <script src="alternate-aspnetcore-browser-refresh.js"></script> -->
+</body>
+</html>
